@@ -16,6 +16,12 @@ class SortableBook extends Book implements Sortable {
         sorted = false;
     }
     
+    SortableBook(Book book, int deweyDecimal){
+        super(book.title, book.author, book.published, book.publisher, book.price);
+        this.deweyDecimal = deweyDecimal;
+        sorted = false;
+    }
+    
     @Override
     public void sort(){
         String category = this.produceCategory();
@@ -59,6 +65,13 @@ class SortableBook extends Book implements Sortable {
         else
             return "No Category";
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "SortableBook{" + "deweyDecimal=" + deweyDecimal + ", sorted=" + sorted + '}';
+    }
+    
+    
     
     private static void incrementSortedCount(){
         sortedCount++;
