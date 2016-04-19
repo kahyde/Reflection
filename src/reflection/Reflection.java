@@ -7,38 +7,38 @@ import java.util.Date;
  * @author kelseyhyde
  */
 public class Reflection {
-
+      
     public static void main(String[] args) throws NoSuchFieldException, ClassNotFoundException{
         Class myClass = SortableBook.class;
-        
-        String classPackage = myClass.getName();
-        System.out.println("Class Name is: " + classPackage);
-        
-
+        printPackage(myClass); 
+          
+    }
+    
+    private static void printPackage(Class c){
+        System.out.println(c.getPackage() + ";");
+    }
+    
+    private static void printModifiers(Class c){
         
     }
     
-    private void printModifiers(){
+    private static void printClassHeader(Class c){
         
     }
     
-    private void printClassHeader(){
+    private static void printInterfaces(Class c){
         
     }
     
-    private void printInterfaces(){
+    private static void printFields(Class c){
         
     }
     
-    private void printFields(){
+    private static void printConstructors(Class c){
         
     }
     
-    private void printConstructors(){
-        
-    }
-    
-    private void printMethods(){
+    private static void printMethods(Class c){
         
     }
     
