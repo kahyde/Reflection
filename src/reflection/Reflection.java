@@ -12,15 +12,16 @@ import java.util.Arrays;
  */
 public class Reflection {
     
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException, IOException {
         Class myClass = SortableBook.class;
-        //PrintWriter writer = new PrintWriter(myClass.getSimpleName() + ".java");
-        System.out.println(printPackage(myClass)); 
-        System.out.println(printClassHeader(myClass)); 
-        System.out.println(printFields(myClass));
-        System.out.println(printConstructors(myClass));
-        System.out.println(printMethods(myClass));
-        System.out.println("}");
+        PrintWriter writer = new PrintWriter(new FileWriter(myClass.getSimpleName() + ".java"));
+        writer.println(printPackage(myClass)); 
+        writer.println(printClassHeader(myClass)); 
+        writer.println(printFields(myClass));
+        writer.println(printConstructors(myClass));
+        writer.println(printMethods(myClass));
+        writer.println("}");
+        writer.close();
     }
     
     public static String printPackage(Class c){
