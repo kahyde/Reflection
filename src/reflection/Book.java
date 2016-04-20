@@ -1,18 +1,16 @@
 package reflection;
 
-import java.util.Date;
-
 /**
  * @author kelseyhyde
  */
 class Book {
     protected String title;
     protected String author;
-    protected Date published;
+    protected String published;
     protected String publisher;
     protected double price;
     
-    Book (String title, String author, Date published, String publisher, double price){
+    Book (String title, String author, String published, String publisher, double price){
         this.title = title;
         this.author = author;
         this.published = published;
@@ -36,11 +34,11 @@ class Book {
         this.author = author;
     }
 
-    public Date getPublished() {
+    public String getPublished() {
         return published;
     }
 
-    public void setPublished(Date published) {
+    public void setPublished(String published) {
         this.published = published;
     }
 

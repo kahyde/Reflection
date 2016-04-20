@@ -8,14 +8,13 @@ import java.util.Date;
  */
 public class Reflection {
       
-    public static void main(String[] args) throws NoSuchFieldException, ClassNotFoundException{
+    public static void main(String[] args){
         Class myClass = SortableBook.class;
         printPackage(myClass); 
-        printClassModifiers(myClass);
-          
+        printClassHeader(myClass);  
     }
     
-    private static void printPackage(Class c){
+    public static void printPackage(Class c){
         Package classPackage = c.getPackage();
         System.out.println(classPackage + ";");
     }
@@ -35,12 +34,36 @@ public class Reflection {
             System.out.print("static ");
         if (Modifier.isFinal(modifiers))
             System.out.print("final ");
-        
-        System.out.println();
     }
     
-    private static void printClassHeader(Class c){
+    public static void printClassHeader(Class c){
+        printClassModifiers(c);
+        System.out.print("class ");
+        String name = c.getSimpleName();
+        System.out.print(name + " ");
+
+        Class superClass = c.getSuperclass();
+        if (superClass != null){
+            String superName = superClass.getSimpleName();
+            System.out.print("extends " + superName + " ");
+        }
         
+        Class[] interfaces = c.getInterfaces();
+        if (interfaces.length != 0){
+            System.out.print("implements ");
+  
+            if(interfaces.length == 1)
+                System.out.print(interfaces[0].getSimpleName() + " ");
+            else{
+                for (int i = 0; i < interfaces.length - 1; i++) {
+                    String interfaceName = interfaces[i].getSimpleName();
+                    System.out.print(interfaceName + ", ");
+                }
+                System.out.print(interfaces[interfaces.length - 1].getSimpleName() + " ");
+            }
+        }
+        
+        System.out.println("{ ");
     }
     
     private static void printInterfaces(Class c){
