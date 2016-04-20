@@ -1,6 +1,7 @@
 package reflection;
 
 import java.lang.reflect.*;
+import java.util.Arrays;
 
 /**
  * @author kelseyhyde
@@ -12,6 +13,7 @@ public class Reflection {
         printPackage(myClass); 
         printClassHeader(myClass); 
         printFields(myClass);
+        printConstructors(myClass);
     }
     
     public static void printPackage(Class c){
@@ -19,7 +21,7 @@ public class Reflection {
         System.out.println(classPackage + ";");
     }
     
-    private static void printClassModifiers(Class c){
+    private static void printModifiers(Class c){
         int modifiers = c.getModifiers();
         if (Modifier.isPublic(modifiers))
             System.out.print("public ");
@@ -37,7 +39,7 @@ public class Reflection {
     }
     
     public static void printClassHeader(Class c){
-        printClassModifiers(c);
+        printModifiers(c);
         System.out.print("class ");
         String name = c.getSimpleName();
         System.out.print(name + " ");
@@ -60,7 +62,7 @@ public class Reflection {
   
             if(interfaces.length == 1)
                 System.out.print(interfaces[0].getSimpleName() + " ");
-            else{
+            else {
                 for (int i = 0; i < interfaces.length - 1; i++) {
                     String interfaceName = interfaces[i].getSimpleName();
                     System.out.print(interfaceName + ", ");
@@ -73,15 +75,15 @@ public class Reflection {
     public static void printFields(Class c){
         Field[] fields = c.getDeclaredFields();
         for (Field f : fields){
-            printFieldModifiers(f);
-            Object type = f.getType();
-            System.out.print(type + " ");
-            String name = f.getName();
-            System.out.println(name + ";");
+            printModifiers(f);
+            
+            System.out.print(f.getType() + " ");
+            
+            System.out.println(f.getName() + ";");
         }
     }
     
-    private static void printFieldModifiers(Field f){
+    private static void printModifiers(Field f){
         int modifiers = f.getModifiers();
         if (Modifier.isPublic(modifiers))
             System.out.print("public ");
@@ -100,8 +102,45 @@ public class Reflection {
             System.out.print("volatile ");
     }
     
-    private static void printConstructors(Class c){
-        
+    public static void printConstructors(Class c){
+        Constructor[] constructors = c.getConstructors();
+        for (Constructor con : constructors){
+            printModifiers(con);
+            
+            System.out.print(c.getSimpleName() + "(");
+            
+            Class[] types = con.getParameterTypes();
+            printTypes(types);
+            
+            System.out.println("){}");
+        }
+    }
+    
+    private static void printModifiers(Constructor c){
+        int modifiers = c.getModifiers();
+        if (Modifier.isPublic(modifiers))
+            System.out.print("public ");
+        else if (Modifier.isProtected(modifiers))
+            System.out.print("protected ");
+        else if (Modifier.isPrivate(modifiers))
+            System.out.print("private ");
+    }
+    
+    private static void printTypes(Class[] types){
+        int length = types.length;
+        if (length != 0){
+            
+            if (length == 1){
+                System.out.print(types[0].getSimpleName() + " arg0 ");
+            }
+            else {
+               for (int i = 0; i < length - 1; i++){
+                   System.out.print(types[i].getSimpleName() + " arg" + i + ", ");
+               } 
+               System.out.print(types[length - 1] + " arg" + (length - 1));
+            }
+        }
+
     }
     
     private static void printMethods(Class c){
