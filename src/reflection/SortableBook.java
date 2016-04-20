@@ -8,13 +8,13 @@ public class SortableBook extends Book implements Sortable {
     private boolean sorted;
     private static int sortedCount;
     
-    SortableBook(String title, String author, String published, String publisher, double price, int deweyDecimal){
+    public SortableBook(String title, String author, String published, String publisher, double price, int deweyDecimal){
         super(title, author, published, publisher, price);
         this.deweyDecimal = deweyDecimal;
         sorted = false;
     }
     
-    SortableBook(Book book, int deweyDecimal){
+    public SortableBook(Book book, int deweyDecimal){
         super(book.title, book.author, book.published, book.publisher, book.price);
         this.deweyDecimal = deweyDecimal;
         sorted = false;

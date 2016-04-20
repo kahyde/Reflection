@@ -14,6 +14,8 @@ public class Reflection {
         printClassHeader(myClass); 
         printFields(myClass);
         printConstructors(myClass);
+        printMethods(myClass);
+        System.out.println("}");
     }
     
     public static void printPackage(Class c){
@@ -143,8 +145,38 @@ public class Reflection {
 
     }
     
-    private static void printMethods(Class c){
-        
+    public static void printMethods(Class c){
+        Method[] methods = c.getDeclaredMethods();
+        for (Method m : methods){
+            if (!(m.isBridge())){
+                printModifiers(m);
+                Class type = m.getReturnType();
+                System.out.print(type.getSimpleName() + " ");
+                System.out.print(m.getName());
+                System.out.println("(){}");
+            }
+        }
     }
+    
+    private static void printModifiers(Method m){
+        int modifiers = m.getModifiers();
+        if (Modifier.isPublic(modifiers))
+            System.out.print("public ");
+        else if (Modifier.isProtected(modifiers))
+            System.out.print("protected ");
+        else if (Modifier.isPrivate(modifiers))
+            System.out.print("private ");
+        
+        if (Modifier.isAbstract(modifiers))
+            System.out.print("abstract ");
+        if (Modifier.isStatic(modifiers))
+            System.out.print("static ");
+        if (Modifier.isFinal(modifiers))
+            System.out.print("final ");
+        if (Modifier.isSynchronized(modifiers))
+            System.out.print("synchronized ");
+    }
+    
+    
     
 }
