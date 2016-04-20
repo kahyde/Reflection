@@ -133,7 +133,7 @@ public class Reflection {
         if (length != 0){
             
             if (length == 1){
-                System.out.print(types[0].getSimpleName() + " arg0 ");
+                System.out.print(types[0].getSimpleName() + " arg0");
             }
             else {
                for (int i = 0; i < length - 1; i++){
@@ -153,7 +153,10 @@ public class Reflection {
                 Class type = m.getReturnType();
                 System.out.print(type.getSimpleName() + " ");
                 System.out.print(m.getName());
-                System.out.println("(){}");
+                System.out.print("(");
+                Class[] parameters = m.getParameterTypes();
+                printTypes(parameters);
+                System.out.println("){}");
             }
         }
     }

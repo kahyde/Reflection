@@ -68,8 +68,22 @@ public class SortableBook extends Book implements Sortable {
     public String toString() {
         return super.toString() + "SortableBook{" + "deweyDecimal=" + deweyDecimal + ", sorted=" + sorted + '}';
     }
+
+    public int getDeweyDecimal() {
+        return deweyDecimal;
+    }
+
+    public void setDeweyDecimal(int deweyDecimal) {
+        this.deweyDecimal = deweyDecimal;
+    }
     
+    public boolean getSorted(){
+        return sorted;
+    }
     
+    public static int getSortedCount(){
+        return sortedCount;
+    }
     
     private static void incrementSortedCount(){
         sortedCount++;
