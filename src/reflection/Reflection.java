@@ -1,5 +1,9 @@
 package reflection;
 
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.*;
 import java.util.Arrays;
 
@@ -7,179 +11,207 @@ import java.util.Arrays;
  * @author kelseyhyde
  */
 public class Reflection {
-      
-    public static void main(String[] args){
+    
+    public static void main(String[] args) throws FileNotFoundException {
         Class myClass = SortableBook.class;
-        printPackage(myClass); 
-        printClassHeader(myClass); 
-        printFields(myClass);
-        printConstructors(myClass);
-        printMethods(myClass);
+        //PrintWriter writer = new PrintWriter(myClass.getSimpleName() + ".java");
+        System.out.println(printPackage(myClass)); 
+        System.out.println(printClassHeader(myClass)); 
+        System.out.println(printFields(myClass));
+        System.out.println(printConstructors(myClass));
+        System.out.println(printMethods(myClass));
         System.out.println("}");
     }
     
-    public static void printPackage(Class c){
+    public static String printPackage(Class c){
+        StringBuilder s = new StringBuilder("");
         Package classPackage = c.getPackage();
-        System.out.println(classPackage + ";");
+        s.append(classPackage).append(";");
+        return s.toString();
     }
     
-    private static void printModifiers(Class c){
+    private static String printModifiers(Class c){
+        StringBuilder s = new StringBuilder("");
         int modifiers = c.getModifiers();
         if (Modifier.isPublic(modifiers))
-            System.out.print("public ");
+            s.append("public ");
         else if (Modifier.isProtected(modifiers))
-            System.out.print("protected ");
+            s.append("protected ");
         else if (Modifier.isPrivate(modifiers))
-            System.out.print("private ");
+            s.append("private ");
 
         if (Modifier.isAbstract(modifiers))
-            System.out.print("abstract ");
+            s.append("abstract ");
         if (Modifier.isStatic(modifiers))
-            System.out.print("static ");
+            s.append("static ");
         if (Modifier.isFinal(modifiers))
-            System.out.print("final ");
+            s.append("final ");
+        
+        return s.toString();
     }
     
-    public static void printClassHeader(Class c){
-        printModifiers(c);
-        System.out.print("class ");
+    public static String printClassHeader(Class c){
+        StringBuilder s = new StringBuilder("");
+        String m = printModifiers(c);
+        s.append(m);
+        
+        s.append("class ");
+        
         String name = c.getSimpleName();
-        System.out.print(name + " ");
+        s.append(name).append(" ");
 
         Class superClass = c.getSuperclass();
         if (superClass != null){
             String superName = superClass.getSimpleName();
-            System.out.print("extends " + superName + " ");
+            s.append("extends ").append(superName).append(" ");
         }
         
-        printInterfaces(c);
+        String i = printInterfaces(c);
+        s.append(i).append("{ ");
         
-        System.out.println("{ ");
+        return s.toString();
     }
     
-    private static void printInterfaces(Class c){
+    private static String printInterfaces(Class c){
+        StringBuilder s = new StringBuilder("");
         Class[] interfaces = c.getInterfaces();
         if (interfaces.length != 0){
-            System.out.print("implements ");
+            s.append("implements ");
   
-            if(interfaces.length == 1)
-                System.out.print(interfaces[0].getSimpleName() + " ");
+            if(interfaces.length == 1){
+                s.append(interfaces[0].getSimpleName()).append(" ");
+            }
             else {
                 for (int i = 0; i < interfaces.length - 1; i++) {
                     String interfaceName = interfaces[i].getSimpleName();
-                    System.out.print(interfaceName + ", ");
+                    s.append(interfaceName).append(", ");
                 }
-                System.out.print(interfaces[interfaces.length - 1].getSimpleName() + " ");
+                s.append(interfaces[interfaces.length - 1].getSimpleName()).append(" ");
             }
         }
+        return s.toString();
     }
     
-    public static void printFields(Class c){
+    public static String printFields(Class c){
+        StringBuilder s = new StringBuilder("");
         Field[] fields = c.getDeclaredFields();
         for (Field f : fields){
-            printModifiers(f);
+            String m = printModifiers(f);
+            s.append(m);
             
-            System.out.print(f.getType() + " ");
+            s.append(f.getType()).append(" ");
             
-            System.out.println(f.getName() + ";");
+            s.append(f.getName()).append(";\n");
         }
+        return s.toString();
     }
     
-    private static void printModifiers(Field f){
+    private static String printModifiers(Field f){
+        StringBuilder s = new StringBuilder("");
         int modifiers = f.getModifiers();
         if (Modifier.isPublic(modifiers))
-            System.out.print("public ");
+            s.append("public ");
         else if (Modifier.isProtected(modifiers))
-            System.out.print("protected ");
+            s.append("protected ");
         else if (Modifier.isPrivate(modifiers))
-            System.out.print("private ");
+            s.append("private ");
         
         if (Modifier.isStatic(modifiers))
-            System.out.print("static ");
+            s.append("static ");
         if (Modifier.isFinal(modifiers))
-            System.out.print("final ");
+            s.append("final ");
         if (Modifier.isTransient(modifiers))
-            System.out.print("transient ");
+            s.append("transient ");
         if (Modifier.isVolatile(modifiers))
-            System.out.print("volatile ");
+            s.append("volatile ");
+        
+        return s.toString();
     }
     
-    public static void printConstructors(Class c){
+    public static String printConstructors(Class c){
+        StringBuilder s = new StringBuilder("");
         Constructor[] constructors = c.getConstructors();
         for (Constructor con : constructors){
-            printModifiers(con);
+            s.append(printModifiers(con));
             
-            System.out.print(c.getSimpleName() + "(");
+            s.append(c.getSimpleName()).append("(");
             
             Class[] types = con.getParameterTypes();
-            printTypes(types);
-            
-            System.out.println("){}");
+            s.append(printTypes(types)).append("){}\n");
         }
+        return s.toString();
     }
     
-    private static void printModifiers(Constructor c){
+    private static String printModifiers(Constructor c){
+        StringBuilder s = new StringBuilder("");
         int modifiers = c.getModifiers();
         if (Modifier.isPublic(modifiers))
-            System.out.print("public ");
+            s.append("public ");
         else if (Modifier.isProtected(modifiers))
-            System.out.print("protected ");
+            s.append("protected ");
         else if (Modifier.isPrivate(modifiers))
-            System.out.print("private ");
+            s.append("private ");
+        
+        return s.toString();
     }
     
-    private static void printTypes(Class[] types){
+    private static String printTypes(Class[] types){
+        StringBuilder s = new StringBuilder("");
         int length = types.length;
         if (length != 0){
             
             if (length == 1){
-                System.out.print(types[0].getSimpleName() + " arg0");
+                s.append(types[0].getSimpleName()).append(" arg0");
             }
             else {
                for (int i = 0; i < length - 1; i++){
-                   System.out.print(types[i].getSimpleName() + " arg" + i + ", ");
+                   s.append(types[i].getSimpleName()).append(" arg").append(i).append(", ");
+                   
                } 
-               System.out.print(types[length - 1] + " arg" + (length - 1));
+               s.append(types[length - 1]).append(" arg").append(length - 1);
             }
         }
-
+        return s.toString();
     }
     
-    public static void printMethods(Class c){
+    public static String printMethods(Class c){
+        StringBuilder s = new StringBuilder("");
         Method[] methods = c.getDeclaredMethods();
         for (Method m : methods){
             if (!(m.isBridge())){
-                printModifiers(m);
+                s.append(printModifiers(m));
                 Class type = m.getReturnType();
-                System.out.print(type.getSimpleName() + " ");
-                System.out.print(m.getName());
-                System.out.print("(");
+                s.append(type.getSimpleName()).append(" ");
+                
+                s.append(m.getName()).append("(");
+                
                 Class[] parameters = m.getParameterTypes();
-                printTypes(parameters);
-                System.out.println("){}");
+                s.append(printTypes(parameters));
+                s.append("){}\n");
             }
         }
+        return s.toString();
     }
     
-    private static void printModifiers(Method m){
+    private static String printModifiers(Method m){
+        StringBuilder s = new StringBuilder("");
         int modifiers = m.getModifiers();
         if (Modifier.isPublic(modifiers))
-            System.out.print("public ");
+            s.append("public ");
         else if (Modifier.isProtected(modifiers))
-            System.out.print("protected ");
+            s.append("protected ");
         else if (Modifier.isPrivate(modifiers))
-            System.out.print("private ");
+            s.append("private ");
         
         if (Modifier.isAbstract(modifiers))
-            System.out.print("abstract ");
+            s.append("abstract ");
         if (Modifier.isStatic(modifiers))
-            System.out.print("static ");
+            s.append("static ");
         if (Modifier.isFinal(modifiers))
-            System.out.print("final ");
+            s.append("final ");
         if (Modifier.isSynchronized(modifiers))
-            System.out.print("synchronized ");
+            s.append("synchronized ");
+        
+        return s.toString();
     }
-    
-    
-    
 }
