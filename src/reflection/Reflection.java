@@ -48,6 +48,12 @@ public class Reflection {
             System.out.print("extends " + superName + " ");
         }
         
+        printInterfaces(c);
+        
+        System.out.println("{ ");
+    }
+    
+    private static void printInterfaces(Class c){
         Class[] interfaces = c.getInterfaces();
         if (interfaces.length != 0){
             System.out.print("implements ");
@@ -62,12 +68,6 @@ public class Reflection {
                 System.out.print(interfaces[interfaces.length - 1].getSimpleName() + " ");
             }
         }
-        
-        System.out.println("{ ");
-    }
-    
-    private static void printInterfaces(Class c){
-        
     }
     
     private static void printFields(Class c){
