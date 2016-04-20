@@ -1,7 +1,5 @@
 package reflection;
 
-
-
 /**
  * @author kelseyhyde
  */

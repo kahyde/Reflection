@@ -1,7 +1,6 @@
 package reflection;
 
 import java.lang.reflect.*;
-import java.util.Date;
 
 /**
  * @author kelseyhyde
@@ -11,7 +10,8 @@ public class Reflection {
     public static void main(String[] args){
         Class myClass = SortableBook.class;
         printPackage(myClass); 
-        printClassHeader(myClass);  
+        printClassHeader(myClass); 
+        printFields(myClass);
     }
     
     public static void printPackage(Class c){
@@ -70,8 +70,34 @@ public class Reflection {
         }
     }
     
-    private static void printFields(Class c){
+    public static void printFields(Class c){
+        Field[] fields = c.getDeclaredFields();
+        for (Field f : fields){
+            printFieldModifiers(f);
+            Object type = f.getType();
+            System.out.print(type + " ");
+            String name = f.getName();
+            System.out.println(name + ";");
+        }
+    }
+    
+    private static void printFieldModifiers(Field f){
+        int modifiers = f.getModifiers();
+        if (Modifier.isPublic(modifiers))
+            System.out.print("public ");
+        else if (Modifier.isProtected(modifiers))
+            System.out.print("protected ");
+        else if (Modifier.isPrivate(modifiers))
+            System.out.print("private ");
         
+        if (Modifier.isStatic(modifiers))
+            System.out.print("static ");
+        if (Modifier.isFinal(modifiers))
+            System.out.print("final ");
+        if (Modifier.isTransient(modifiers))
+            System.out.print("transient ");
+        if (Modifier.isVolatile(modifiers))
+            System.out.print("volatile ");
     }
     
     private static void printConstructors(Class c){
