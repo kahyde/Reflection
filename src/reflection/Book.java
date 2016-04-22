@@ -1,6 +1,7 @@
 package reflection;
 
 /**
+ * A class representing a basic book.
  * @author kelseyhyde
  */
 public class Book {

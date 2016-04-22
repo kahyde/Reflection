@@ -7,10 +7,12 @@ import java.io.PrintWriter;
 import java.lang.reflect.*;
 
 /**
+ * A class demonstrating the creation of a .java file from a .class file using reflection.
  * @author kelseyhyde
  */
 public class Reflection {
     
+    //Creates a .java file from the .class file of SortableBook.
     public static void main(String[] args) throws FileNotFoundException, IOException {
         Class myClass = SortableBook.class;
         PrintWriter writer = new PrintWriter(new FileWriter(myClass.getSimpleName() + ".java"));
@@ -23,6 +25,7 @@ public class Reflection {
         writer.close();
     }
     
+    //returns a string with the package name of the class passed as an argument.
     private static String printPackage(Class c){
         StringBuilder s = new StringBuilder("");
         Package classPackage = c.getPackage();
@@ -30,6 +33,7 @@ public class Reflection {
         return s.toString();
     }
     
+    //returns a string with the class header of the class passed as an argument.
     private static String printClassHeader(Class c){
         StringBuilder s = new StringBuilder("");
         String m = printModifiers(c);
@@ -52,6 +56,7 @@ public class Reflection {
         return s.toString();
     }
     
+    //returns a string containing the fields of the class on separate lines.
     private static String printFields(Class c){
         StringBuilder s = new StringBuilder("");
         Field[] fields = c.getDeclaredFields();
@@ -66,6 +71,7 @@ public class Reflection {
         return s.toString();
     }
     
+    //returns a string containing the (formatted) constructors of the class.
     private static String printConstructors(Class c){
         StringBuilder s = new StringBuilder("");
         Constructor[] constructors = c.getConstructors();
@@ -80,6 +86,7 @@ public class Reflection {
         return s.toString();
     }
     
+    //returns a string containing the (formatted) methods of the class.
     private static String printMethods(Class c){
         StringBuilder s = new StringBuilder("");
         Method[] methods = c.getDeclaredMethods();
@@ -99,6 +106,7 @@ public class Reflection {
         return s.toString();
     }
     
+    //returns a string containing the relevant modifiers of the class.
     private static String printModifiers(Class c){
         StringBuilder s = new StringBuilder("");
         int modifiers = c.getModifiers();
@@ -116,6 +124,7 @@ public class Reflection {
         return s.toString();
     }
     
+    //returns a string containing the relevant modifiers of the field.
     private static String printModifiers(Field f){
         StringBuilder s = new StringBuilder("");
         int modifiers = f.getModifiers();
@@ -135,6 +144,7 @@ public class Reflection {
         return s.toString();
     }
     
+    //returns a string containing the relevant modifiers of the constructor.
     private static String printModifiers(Constructor c){
         StringBuilder s = new StringBuilder("");
         int modifiers = c.getModifiers();
@@ -145,6 +155,7 @@ public class Reflection {
         return s.toString();
     }
     
+    //returns a string containing the relevant modifiers of the method.
     private static String printModifiers(Method m){
         StringBuilder s = new StringBuilder("");
         int modifiers = m.getModifiers();
@@ -164,6 +175,7 @@ public class Reflection {
         return s.toString();
     }
     
+    //returns a string containing the access modifiers of a class, field, constructor or method.
     private static String printAccessModifiers(int modifiers){
         StringBuilder s = new StringBuilder("");
         if (Modifier.isPublic(modifiers))
@@ -176,6 +188,7 @@ public class Reflection {
         return s.toString();
     }
     
+    //returns a string containing the interfaces section of the class header.
     private static String printInterfaces(Class c){
         StringBuilder s = new StringBuilder("");
         Class[] interfaces = c.getInterfaces();
@@ -196,6 +209,7 @@ public class Reflection {
         return s.toString();
     }
     
+    //returns a string containing the types of arguments in a constructor or method.
     private static String printTypes(Class[] types){
         StringBuilder s = new StringBuilder("");
         int length = types.length;

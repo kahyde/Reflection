@@ -1,6 +1,7 @@
 package reflection;
 
 /**
+ * A class representing a book that can be sorted.
  * @author kelseyhyde
  */
 public class SortableBook extends Book implements Sortable {
@@ -20,6 +21,7 @@ public class SortableBook extends Book implements Sortable {
         sorted = false;
     }
     
+    //marks the book as sorted and prints its category to the console.
     @Override
     public void sort(){
         String category = this.produceCategory();
@@ -38,6 +40,7 @@ public class SortableBook extends Book implements Sortable {
         
     }
     
+    //returns a string with the category of the book.
     @Override
     public String produceCategory(){
         if (deweyDecimal >= 0 && deweyDecimal <= 99 )
