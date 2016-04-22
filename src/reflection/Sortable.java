@@ -3,7 +3,7 @@ package reflection;
 /**
  * @author kelseyhyde
  */
-interface Sortable {
+public interface Sortable {
     
     public String produceCategory();
     

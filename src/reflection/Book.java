@@ -3,14 +3,14 @@ package reflection;
 /**
  * @author kelseyhyde
  */
-class Book {
+public class Book {
     protected String title;
     protected String author;
     protected String published;
     protected String publisher;
     protected double price;
     
-    Book (String title, String author, String published, String publisher, double price){
+    public Book (String title, String author, String published, String publisher, double price){
         this.title = title;
         this.author = author;
         this.published = published;
